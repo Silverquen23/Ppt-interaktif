@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta Petualangan Metamorfosis: Media Pembelajaran Interaktif</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { margin: 0; padding: 0; background-color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+    
+    /* Presentation Slide Base Frame */
+    .slide-container {
+      width: 1280px;
+      height: 720px;
+      margin: 20px auto;
+      overflow: hidden;
+      box-sizing: border-box;
+      background: #ffffff;
+      color: #1e293b;
+      position: relative;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+    .slide-container.active {
+      display: flex;
+    }
+
+    /* Map Keyframes Animations */
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      50% { transform: scale(1.08); box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
+    }
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(5deg); }
+    }
+    @keyframes dashMove {
+      to { stroke-dashoffset: -40; }
+    }
+
+    .node-pulse {
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+    .floating-element {
+      animation: floatParticle 4s infinite ease-in-out;
+    }
+    .path-animated {
+      stroke-dasharray: 12, 8;
+      animation: dashMove 3s linear infinite;
+    }
+
+    /* Custom Button & Card Hover Effects */
+    .map-node-btn {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .map-node-btn:hover {
+      transform: scale(1.15) translateY(-5px);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-slate-900 py-6">
+
+  <!-- TOP BAR CONTROL NAVIGATOR -->
+  <div class="w-[1280px] mb-3 flex items-center justify-between text-white bg-slate-800/80 backdrop-blur-md px-6 py-3 rounded-2xl border border-slate-700/60 shadow-lg">
+    <div class="flex items-center gap-3">
+      <span class="bg-emerald-500/20 text-emerald-400 p-2 rounded-xl border border-emerald-500/30">
+        <i class="fa-solid fa-map-location-dot text-lg"></i>
+      </span>
+      <div>
+        <h2 class="text-sm font-bold tracking-wide text-emerald-400">PETA PETUALANGAN INTERAKTIF</h2>
+        <p class="text-xs text-slate-400">Modul Metamorfosis Daur Hidup Hewan</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-3">
+      <button onclick="showSlide('map')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-sm transition-all flex items-center gap-2 shadow-md hover:shadow-emerald-500/20">
+        <i class="fa-solid fa-compass"></i> Kembali ke Peta Utama
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER AREA -->
+  <div id="deck-wrapper">
+
+    <!-- ================= SLIDE 1: PETA UTAMA ANIMASI (THE ADVENTURE MAP) ================= -->
+    <div class="slide-container active flex-col" id="slide-map" style="background: radial-gradient(circle at 50% 50%, #0f2e22 0%, #061a12 100%);">
+      
+      <!-- Background SVG Map Trails & Decorative Landforms -->
+      <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1280 720">
+        <!-- Connecting Map Paths -->
+        <path d="M 200 360 C 350 200, 450 520, 600 360 C 720 220, 850 500, 1080 360" fill="none" stroke="rgba(52, 211, 153, 0.25)" stroke-width="10" stroke-linecap="round"/>
+        <path d="M 200 360 C 350 200, 450 520, 600 360 C 720 220, 850 500, 1080 360" fill="none" stroke="#34d399" stroke-width="4" stroke-linecap="round" class="path-animated"/>
+
+        <!-- Decorative Floating Islands / Natural Elements -->
+        <circle cx="200" cy="360" r="75" fill="rgba(16, 185, 129, 0.08)" stroke="rgba(52, 211, 153, 0.2)" stroke-width="2"/>
+        <circle cx="440" cy="280" r="65" fill="rgba(2, 132, 199, 0.08)" stroke="rgba(56, 189, 248, 0.2)" stroke-width="2"/>
+        <circle cx="600" cy="360" r="75" fill="rgba(217, 119, 6, 0.08)" stroke="rgba(251, 191, 36, 0.2)" stroke-width="2"/>
+        <circle cx="840" cy="440" r="65" fill="rgba(147, 51, 234, 0.08)" stroke="rgba(192, 132, 252, 0.2)" stroke-width="2"/>
+        <circle cx="1080" cy="360" r="75" fill="rgba(225, 29, 72, 0.08)" stroke="rgba(251, 113, 133, 0.2)" stroke-width="2"/>
+      </svg>
+
+      <!-- Header Title Banner -->
+      <div class="relative z-10 pt-8 px-12 text-center flex flex-col items-center">
+        <div class="bg-emerald-950/80 border border-emerald-500/40 px-5 py-1.5 rounded-full text-emerald-300 text-xs font-bold uppercase tracking-widest shadow-lg mb-2">
+          <i class="fa-solid fa-gamepad mr-2"></i> Peta Pembelajaran Interaktif
+        </div>
+        <h1 class="font-['Space_Grotesk'] text-4xl font-extrabold text-white tracking-tight drop-shadow-md">
+          PETUALANGAN METAMORFOSIS HEWAN
+        </h1>
+        <p class="text-emerald-200/80 text-base max-w-2xl mt-1">
+          Klik tombol pos (pos pulau) pada peta di bawah ini untuk menjelajahi setiap materi!
+        </p>
+      </div>
+
+      <!-- MAP INTERACTIVE NODES (POS PETUALANGAN) -->
+      <div class="relative w-full h-full z-10">
+
+        <!-- NODE 1: START / TP -->
+        <div class="absolute left-[135px] top-[280px] flex flex-col items-center group">
+          <button onclick="showSlide('tp')" class="map-node-btn node-pulse w-28 h-28 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 border-4 border-emerald-200 text-slate-900 shadow-xl flex flex-col items-center justify-center gap-1">
+            <i class="fa-solid fa-bullseye text-3xl"></i>
+            <span class="text-[11px] font-extrabold uppercase tracking-wide">POS 1</span>
+          </button>
+          <div class="mt-3 bg-slate-900/90 border border-emerald-500/40 text-emerald-300 px-4 py-2 rounded-xl text-center shadow-lg backdrop-blur-sm">
+            <p class="text-xs font-bold">Tujuan Pembelajaran</p>
+            <span class="text-[10px] text-slate-400">Target & Kompetensi</span>
+          </div>
+        </div>
+
+        <!-- NODE 2: MATERI 1 (METAMORFOSIS SEMPURNA) -->
+        <div class="absolute left-[380px] top-[190px] flex flex-col items-center group">
+          <button onclick="showSlide('materi-sempurna')" class="map-node-btn node-pulse w-24 h-24 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 border-4 border-sky-200 text-slate-900 shadow-xl flex flex-col items-center justify-center gap-1">
+            <i class="fa-solid fa-bug text-2xl"></i>
+            <span class="text-[10px] font-extrabold uppercase tracking-wide">POS 2</span>
+          </button>
+          <div class="mt-3 bg-slate-900/90 border border-sky-500/40 text-sky-300 px-4 py-2 rounded-xl text-center shadow-lg backdrop-blur-sm">
+            <p class="text-xs font-bold">Metamorfosis Sempurna</p>
+            <span class="text-[10px] text-slate-400">4 Fase Lengkap</span>
+          </div>
+        </div>
+
+        <!-- NODE 3: MATERI 2 (METAMORFOSIS TIDAK SEMPURNA) -->
+        <div class="absolute left-[540px] top-[280px] flex flex-col items-center group">
+          <button onclick="showSlide('materi-tidak-sempurna')" class="map-node-btn node-pulse w-28 h-28 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 border-4 border-amber-200 text-slate-900 shadow-xl flex flex-col items-center justify-center gap-1">
+            <i class="fa-solid fa-locust text-3xl"></i>
+            <span class="text-[11px] font-extrabold uppercase tracking-wide">POS 3</span>
+          </button>
+          <div class="mt-3 bg-slate-900/90 border border-amber-500/40 text-amber-300 px-4 py-2 rounded-xl text-center shadow-lg backdrop-blur-sm">
+            <p class="text-xs font-bold">Metamorfosis Tidak Sempurna</p>
+            <span class="text-[10px] text-slate-400">3 Fase Nimfa</span>
+          </div>
+        </div>
+
+        <!-- NODE 4: VIDEO PEMBELAJARAN -->
+        <div class="absolute left-[785px] top-[360px] flex flex-col items-center group">
+          <button onclick="showSlide('video')" class="map-node-btn node-pulse w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-4 border-purple-200 text-white shadow-xl flex flex-col items-center justify-center gap-1">
+            <i class="fa-solid fa-circle-play text-2xl"></i>
+            <span class="text-[10px] font-extrabold uppercase tracking-wide">POS 4</span>
+          </button>
+          <div class="mt-3 bg-slate-900/90 border border-purple-500/40 text-purple-300 px-4 py-2 rounded-xl text-center shadow-lg backdrop-blur-sm">
+            <p class="text-xs font-bold">Video Pembelajaran</p>
+            <span class="text-[10px] text-slate-400">Simak Visual Daur Hidup</span>
+          </div>
+        </div>
+
+        <!-- NODE 5: KUIS INTERAKTIF & EVALUASI -->
+        <div class="absolute left-[1015px] top-[280px] flex flex-col items-center group">
+          <button onclick="showSlide('kuis1')" class="map-node-btn node-pulse w-28 h-28 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 border-4 border-rose-200 text-white shadow-xl flex flex-col items-center justify-center gap-1">
+            <i class="fa-solid fa-trophy text-3xl"></i>
+            <span class="text-[11px] font-extrabold uppercase tracking-wide">POS 5</span>
+          </button>
+          <div class="mt-3 bg-slate-900/90 border border-rose-500/40 text-rose-300 px-4 py-2 rounded-xl text-center shadow-lg backdrop-blur-sm">
+            <p class="text-xs font-bold">Tantangan Kuis</p>
+            <span class="text-[10px] text-slate-400">Uji Pemahaman</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Hint Bar -->
+      <div class="absolute bottom-4 inset-x-0 text-center text-xs text-emerald-300/60">
+        <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> Petunjuk: Klik tombol lingkaran di atas peta untuk masuk ke modul pembelajaran.
+      </div>
+    </div>
+
+
+    <!-- ================= SLIDE 2: TUJUAN PEMBELAJARAN (TP) ================= -->
+    <div class="slide-container p-14 flex-col justify-between" id="slide-tp">
+      <div>
+        <div class="flex items-center justify-between border-b pb-4 border-slate-200">
+          <div>
+            <p class="text-xs font-extrabold text-emerald-600 uppercase tracking-widest">Capaian Kurikulum • POS 1</p>
+            <h2 class="font-['Space_Grotesk'] text-3xl font-bold text-slate-900 mt-1">Tujuan Pembelajaran (TP)</h2>
+          </div>
+          <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1.5 rounded-full">Modul 01</span>
+        </div>
+        <p class="text-slate-600 text-base mt-4">Setiap peserta didik diharapkan mampu mencapai kompetensi berikut setelah berpetualang:</p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-6 my-auto">
+        <div class="bg-slate-50 border-t-4 border-emerald-500 border-x border-b border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all">
+          <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 text-2xl mb-4">
+            <i class="fa-solid fa-bullseye"></i>
+          </div>
+          <h3 class="font-bold text-lg text-slate-900 mb-2">TP 01: Identifikasi Jenis</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Menjelaskan perbedaan mendasar antara metamorfosis sempurna dan tidak sempurna secara tepat.</p>
+        </div>
+
+        <div class="bg-slate-50 border-t-4 border-sky-500 border-x border-b border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all">
+          <div class="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center text-sky-600 text-2xl mb-4">
+            <i class="fa-solid fa-diagram-project"></i>
+          </div>
+          <h3 class="font-bold text-lg text-slate-900 mb-2">TP 02: Urutan Daur Hidup</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Menganalisis dan mengurutkan tahapan siklus hidup hewan (kupu-kupu, katak, belalang) secara rinci.</p>
+        </div>
+
+        <div class="bg-slate-50 border-t-4 border-amber-500 border-x border-b border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all">
+          <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 text-2xl mb-4">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <h3 class="font-bold text-lg text-slate-900 mb-2">TP 03: Evaluasi & Analisis</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Membandingkan struktur fisik hewan pada tiap fase daur hidupnya melalui kuis interaktif.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+        <div class="flex items-center gap-3 text-emerald-800 text-sm font-semibold">
+          <i class="fa-solid fa-graduation-cap text-lg text-emerald-600"></i>
+          <span><b>Target Indikator:</b> Siswa berhasil menjawab seluruh soal kuis interaktif dengan minimal nilai 80.</span>
+        </div>
+        <button onclick="showSlide('materi-sempurna')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+          Lanjut ke Pos 2 <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ================= SLIDE 3: MATERI METAMORFOSIS SEMPURNA ================= -->
+    <div class="slide-container p-14 gap-10 items-center" id="slide-materi-sempurna">
+      <div class="flex-1">
+        <span class="text-xs font-extrabold text-sky-600 uppercase tracking-widest">POS 2 • MATERI 01</span>
+        <h2 class="font-['Space_Grotesk'] text-3xl font-bold text-slate-900 mt-1 mb-4">Metamorfosis Sempurna (Holometabola)</h2>
+        <p class="text-slate-600 text-base leading-relaxed mb-6"> Perubahan bentuk tubuh hewan yang sangat mencolok antara fase muda (larva) dan fase dewasa (imago), melalui masa transisi pada fase **Pupa/Kepompong**.</p>
+        
+        <div class="bg-slate-50 border-l-4 border-sky-500 p-4 rounded-r-xl mb-6">
+          <p class="font-bold text-slate-900 text-sm mb-1">Tahapan Utama (4 Fase):</p>
+          <p class="text-sky-700 font-bold text-base">Telur ➔ Larva (Ulat/Kecebong) ➔ Pupa (Kepompong) ➔ Imago (Dewasa)</p>
+        </div>
+
+        <div class="text-xs text-slate-500 bg-slate-100 p-3 rounded-lg mb-6">
+          <b>Contoh Hewan:</b> Kupu-kupu, Katak, Lalat, Nyamuk, dan Lebah.
+        </div>
+
+        <button onclick="showSlide('materi-tidak-sempurna')" class="bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all flex items-center gap-2 shadow-md">
+          Lanjut ke Pos 3 <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <div class="flex-1 h-[460px] rounded-2xl overflow-hidden border border-slate-200 shadow-lg relative group">
+        <img src="https://www.vulcantermite.com/wp-content/uploads/2024/02/butterfly.jpg" alt="Metamorfosis Kupu-Kupu" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/80 to-transparent p-6 text-white">
+          <span class="text-xs uppercase tracking-wider text-sky-300 font-bold">Studi Kasus Visual</span>
+          <p class="font-bold text-lg">Metamorfosis Kupu-kupu</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================= SLIDE 4: MATERI METAMORFOSIS TIDAK SEMPURNA ================= -->
+    <div class="slide-container p-14 gap-10 items-center" id="slide-materi-tidak-sempurna">
+      <div class="flex-1 h-[460px] rounded-2xl overflow-hidden border border-slate-200 shadow-lg relative group">
+        <img src="https://uq.pressbooks.pub/app/uploads/sites/164/2025/05/Screen-Shot-2025-07-07-at-10.43.12-am.png" alt="Metamorfosis Belalang" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/80 to-transparent p-6 text-white">
+          <span class="text-xs uppercase tracking-wider text-amber-300 font-bold">Studi Kasus Visual</span>
+          <p class="font-bold text-lg">Metamorfosis Belalang</p>
+        </div>
+      </div>
+
+      <div class="flex-1">
+        <span class="text-xs font-extrabold text-amber-600 uppercase tracking-widest">POS 3 • MATERI 02</span>
+        <h2 class="font-['Space_Grotesk'] text-3xl font-bold text-slate-900 mt-1 mb-4">Metamorfosis Tidak Sempurna (Hemimetabola)</h2>
+        <p class="text-slate-600 text-base leading-relaxed mb-6">Perubahan bentuk tubuh secara bertahap tanpa melalui fase pupa. Hewan muda yang menetas dinamakan **Nimfa**, bentuknya mirip dewasa namun belum memiliki sayap sempurna.</p>
+        
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl mb-6">
+          <p class="font-bold text-slate-900 text-sm mb-1">Tahapan Utama (3 Fase):</p>
+          <p class="text-amber-700 font-bold text-base">Telur ➔ Nimfa (Muda) ➔ Imago (Dewasa)</p>
+        </div>
+
+        <div class="text-xs text-slate-500 bg-slate-100 p-3 rounded-lg mb-6">
+          <b>Contoh Hewan:</b> Belalang, Kecoa, Capung, dan Jangkrik.
+        </div>
+
+        <button onclick="showSlide('video')" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all flex items-center gap-2 shadow-md">
+          Lanjut ke Pos 4 (Video) <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ================= SLIDE 5: VIDEO PEMBELAJARAN ================= -->
+    <div class="slide-container p-12 flex-col justify-between bg-slate-950 text-white" id="slide-video">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <span class="text-xs font-bold text-purple-400 uppercase tracking-widest">POS 4 • MEDIA VISUAL</span>
+          <h2 class="font-['Space_Grotesk'] text-2xl font-bold text-white mt-1">Video Pembelajaran Metamorfosis</h2>
+        </div>
+        <span class="bg-purple-900/60 text-purple-300 text-xs font-bold px-3 py-1.5 rounded-full border border-purple-500/30">Video Interaktif</span>
+      </div>
+
+      <!-- VIDEO EMBED CONTAINER -->
+      <div class="w-full h-[410px] bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col justify-center items-center text-center relative my-4">
+        <div class="p-8 max-w-xl">
+          <div class="w-16 h-16 bg-purple-500/20 border border-purple-400/40 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-400 text-2xl">
+            <i class="fa-solid fa-file-video"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Area Video Pembelajaran Anda</h3>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Ganti bagian koding ini dengan link embed video YouTube <code>&lt;iframe&gt;</code> atau file video MP4 lokal Anda.
+          </p>
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs font-mono text-purple-300">
+            &lt;iframe width="100%" height="100%" src="LINK_VIDEO_YOUTUBE_ANDA"&gt;&lt;/iframe&gt;
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between bg-slate-900 border border-slate-800 px-5 py-3 rounded-xl">
+        <p class="text-xs text-slate-400"><i class="fa-solid fa-circle-play text-purple-400 mr-2"></i> Tonton video sampai selesai sebelum melanjutkannya ke Pos Kuis!</p>
+        <button onclick="showSlide('kuis1')" class="bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+          Masuk Pos 5 (Kuis) <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ================= SLIDE 6: KUIS SOAL 1 ================= -->
+    <div class="slide-container p-12 flex-col justify-between" id="slide-kuis1">
+      <div>
+        <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+          <span class="text-xs font-extrabold text-rose-600 uppercase tracking-widest">POS 5 • EVALUASI SOAL 1 DARI 2</span>
+          <span class="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1.5 rounded-full">Kuis Interaktif</span>
+        </div>
+        <h2 class="font-['Space_Grotesk'] text-2xl font-bold text-slate-900 mt-4 leading-snug">
+          Tahapan daur hidup hewan manakah yang membedakan secara langsung antara Metamorfosis Sempurna dan Tidak Sempurna?
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 my-6" id="quiz1-options">
+        <button onclick="answerQuiz(1, false, this)" class="p-5 border-2 border-slate-200 hover:border-rose-400 rounded-xl flex items-center gap-4 text-left transition-all bg-slate-50">
+          <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">A</span>
+          <span class="font-semibold text-slate-800 text-base">Fase Telur</span>
+        </button>
+
+        <button onclick="answerQuiz(1, true, this)" class="p-5 border-2 border-slate-200 hover:border-rose-400 rounded-xl flex items-center gap-4 text-left transition-all bg-slate-50">
+          <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">B</span>
+          <div>
+            <span class="font-semibold text-slate-800 text-base">Fase Pupa (Kepompong)</span>
+          </div>
+        </button>
+
+        <button onclick="answerQuiz(1, false, this)" class="p-5 border-2 border-slate-200 hover:border-rose-400 rounded-xl flex items-center gap-4 text-left transition-all bg-slate-50">
+          <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">C</span>
+          <span class="font-semibold text-slate-800 text-base">Fase Imago (Dewasa)</span>
+        </button>
+
+        <button onclick="answerQuiz(1, false, this)" class="p-5 border-2 border-slate-200 hover:border-rose-400 rounded-xl flex items-center gap-4 text-left transition-all bg-slate-50">
+          <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">D</span>
+          <span class="font-semibold text-slate-800 text-base">Fase Pembentukan Sayap</span>
+        </button>
+      </div>
+
+      <!-- Feedback Banner -->
+      <div id="quiz1-feedback" class="hidden p-4 rounded-xl border flex items-center justify-between">
+        <p id="quiz1-text" class="text-sm font-bold"></p>
+        <button onclick="showSlide('kuis2')" class="bg-slate-900 text-white font-bold text-xs px-4 py-2 rounded-lg">
+          Soal Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ================= SLIDE 7: KUIS SOAL 2 ================= -->
+    <div class="slide-container p-12 flex-col justify-between" id="slide-kuis2">
+      <div>
+        <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+          <span class="text-xs font-extrabold text-rose-600 uppercase tracking-widest">POS 5 • EVALUASI SOAL 2 DARI 2</span>
+          <span class="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1.5 rounded-full">Kuis Interaktif</span>
+        </div>
+        <h2 class="font-['Space_Grotesk'] text-2xl font-bold text-slate-900 mt-4 leading-snug">
+          Kelompok hewan manakah di bawah ini yang SELURUHNYA mengalami Metamorfosis Tidak Sempurna?
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 my-6" id="quiz2-options">
+        <button onclick="answerQuiz(2, false, this)" class="p-5 border-2 border-slate-200 hover:border-rose-400 rounded-xl flex items-center gap-4 text-left transition-all bg-slate-50">
+          <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">A</span>
+          <span class="font-semibold text-slate-800 text-base">Kupu-kupu, Katak, Lalat</span>
+        </button>
+
+        <button onclick="answerQuiz(2, false, this)" class="p-5 border-2 border-slate-200 hover:border-rose-400 rounded-xl flex items-center gap-4 text-left transition-all bg-slate-50">
+          <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">B</span>
+          <span class="font-semibold text-slate-800 text-base">Nyamuk, Jangkrik, Katak</span>
+        </button>
+
+        <button onclick="answerQuiz(2, true, this)" class="p-5 border-2 border-slate-200 hover:border-rose-400 rounded-xl flex items-center gap-4 text-left transition-all bg-slate-50">
+          <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">C</span>
+          <span class="font-semibold text-slate-800 text-base">Belalang, Kecoa, Capung</span>
+        </button>
+
+        <button onclick="answerQuiz(2, false, this)" class="p-5 border-2 border-slate-200 hover:border-rose-400 rounded-xl flex items-center gap-4 text-left transition-all bg-slate-50">
+          <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">D</span>
+          <span class="font-semibold text-slate-800 text-base">Lebah, Capung, Kupu-kupu</span>
+        </button>
+      </div>
+
+      <!-- Feedback Banner -->
+      <div id="quiz2-feedback" class="hidden p-4 rounded-xl border flex items-center justify-between">
+        <p id="quiz2-text" class="text-sm font-bold"></p>
+        <button onclick="showSlide('finish')" class="bg-emerald-600 text-white font-bold text-xs px-4 py-2 rounded-lg">
+          Selesaikan Petualangan <i class="fa-solid fa-flag-checkered ml-1"></i>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ================= SLIDE 8: FINISH / SELESAI ================= -->
+    <div class="slide-container p-14 flex-col justify-center items-center text-center bg-gradient-to-br from-emerald-950 to-slate-900 text-white" id="slide-finish">
+      <div class="w-20 h-20 bg-emerald-500/20 border-2 border-emerald-400 rounded-full flex items-center justify-center mb-6 text-emerald-400 text-4xl floating-element">
+        <i class="fa-solid fa-trophy"></i>
+      </div>
+      <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-2">Petualangan Selesai</span>
+      <h1 class="font-['Space_Grotesk'] text-5xl font-extrabold mb-4">Selamat, Anda Luar Biasa!</h1>
+      <p class="text-emerald-100/80 text-lg max-w-xl leading-relaxed mb-8">
+        Anda telah menyelesaikan seluruh pos petualangan daur hidup hewan dari Tujuan Pembelajaran hingga Kuis Evaluasi.
+      </p>
+      <button onclick="showSlide('map')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-lg flex items-center gap-2">
+        <i class="fa-solid fa-rotate-left"></i> Kembali ke Peta Utama
+      </button>
+    </div>
+
+  </div>
+
+  <!-- JAVASCRIPT NAVIGATION & QUIZ LOGIC -->
+  <script>
+    function showSlide(slideId) {
+      // Hide all slides
+      const slides = document.querySelectorAll('.slide-container');
+      slides.forEach(slide => slide.classList.remove('active'));
+
+      // Show selected slide
+      const target = document.getElementById('slide-' + slideId);
+      if (target) {
+        target.classList.add('active');
+      }
+    }
+
+    function answerQuiz(questionNum, isCorrect, btnElement) {
+      const feedbackBox = document.getElementById(`quiz${questionNum}-feedback`);
+      const feedbackText = document.getElementById(`quiz${questionNum}-text`);
+      const parent = document.getElementById(`quiz${questionNum}-options`);
+      
+      // Disable further clicks on option buttons
+      const buttons = parent.querySelectorAll('button');
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('opacity-60');
+      });
+
+      btnElement.classList.remove('opacity-60');
+
+      if (isCorrect) {
+        btnElement.classList.add('border-emerald-500', 'bg-emerald-50');
+        feedbackBox.className = "p-4 rounded-xl border flex items-center justify-between bg-emerald-50 border-emerald-300 text-emerald-900";
+        feedbackText.innerHTML = "<i class='fa-solid fa-circle-check text-emerald-600 mr-2 text-lg'></i> Jawaban Anda Benar! Sempurna!";
+      } else {
+        btnElement.classList.add('border-rose-500', 'bg-rose-50');
+        feedbackBox.className = "p-4 rounded-xl border flex items-center justify-between bg-rose-50 border-rose-300 text-rose-900";
+        feedbackText.innerHTML = "<i class='fa-solid fa-circle-xmark text-rose-600 mr-2 text-lg'></i> Jawaban Kurang Tepat. Pelajari kembali materi Pos 2 & 3.";
+      }
+
+      feedbackBox.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
